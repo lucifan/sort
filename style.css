@@ -20,5 +20,7 @@ body {
 	height: 35px;
 	border: 1px solid;
 	display: inline-block;
+	text-align: center;
 	line-height: 200%;
+	position: absolute;
 }
