@@ -24,9 +24,22 @@ body {
 	position: absolute;
 }
 
+.pointer {
+	font-size: 17px;
+	position: absolute;
+	top: 45px;
+	left: 15px;
+	visibility: hidden;
+}
+
+.pointer-j {
+	left: 420px;
+}
+
 .controller {
 	width: 95px;
 	margin: auto;
 	position: relative;
 	top: 60%;
 }
+
