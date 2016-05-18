@@ -32,46 +32,72 @@ function bubbleSort() {
 	var posJ = number.length-1;
 	pointerI.style.visibility = "visible";
 	pointerJ.style.visibility = "visible";
+	startBtn.setAttribute("disabled", "disabled");
+	resetBtn.setAttribute("disabled", "disabled");
 	continueSort(posI, posJ);
 }
 
 function continueSort(posI, posJ) {
-	var i = posI;
-	var j = posJ;
-	for (; i < number.length; i++) {
-		for (; j > i; j--) {
-			pointerI.style.left = (15 + i * 45) + "px";
-			pointerJ.style.left = (15 + j * 45) + "px";
-			for (var k = 0; k < numberBox.length; k++) {
-				if (numberBox[k].style.left == ((j - 1) * 45) + "px") {
-					var leftBox = numberBox[k];
-				}
-				if (numberBox[k].style.left == (j * 45) + "px") {
-					var rightBox = numberBox[k];
-				}
+	if (posJ == posI) {
+		posJ = number.length-1;
+		posI++;
+	}
+	if (posI == number.length-1) {
+		pointerI.style.visibility = "hidden";
+		pointerJ.style.visibility = "hidden";
+		startBtn.removeAttribute("disabled");
+		resetBtn.removeAttribute("disabled");
+		return;
+	}
+	pointerI.style.left = (15 + posI * 45) + "px";
+	pointerJ.style.left = (15 + posJ * 45) + "px";
+	// for (var k = 0; k < numberBox.length; k++) {
+	// 	if (numberBox[k].style.left == ((j - 1) * 45) + "px") {
+	// 		var leftBox = numberBox[k];
+	// 	}
+	// 	if (numberBox[k].style.left == (j * 45) + "px") {
+	// 		var rightBox = numberBox[k];
+	// 	}
+	// }
+	if (number[posJ-1] >= number[posJ]) {
+		var temp = number[posJ];
+		number[posJ] = number[posJ-1];
+		number[posJ-1] = temp;
+		for (var k = 0; k < numberBox.length; k++) {
+			if (numberBox[k].style.left == ((posJ - 1) * 45) + "px") {
+				var leftBox = numberBox[k];
 			}
-			if (parseInt(leftBox.innerText) >= parseInt(rightBox.innerText)) {
-				var times = 45;
-				var count = 1;
-				var left = parseInt(leftBox.style.left);
-				var right = parseInt(rightBox.style.left);
-				var move = setInterval((function(leftBox, rightBox, left, right) {
-					return function() {
-						leftBox.style.left = (left + count) + "px";
-						rightBox.style.left = (right - count) + "px";
-						count++;
-						if (count > times) {
-							clearInterval(move);
-						}
-					};
-				})(leftBox, rightBox, left, right), 50);
-				var nextMove = setTimeout(function() {
-					continueSort(i, j);
-				}, 3000);
-				return;
+			if (numberBox[k].style.left == (posJ * 45) + "px") {
+				var rightBox = numberBox[k];
 			}
-		}
-		j = number.length - 1;
+		}	
+		var times = 45;
+		var count = 1;
+		var left = parseInt(leftBox.style.left);
+		var right = parseInt(rightBox.style.left);
+		leftBox.classList.add("active");
+		rightBox.classList.add("active");
+		var move = setInterval((function(leftBox, rightBox, left, right) {
+			return function() {
+				leftBox.style.left = (left + count) + "px";
+				rightBox.style.left = (right - count) + "px";
+				count++;
+				if (count > times) {
+					leftBox.classList.remove("active");
+					rightBox.classList.remove("active");
+					clearInterval(move);
+				}
+			};
+		})(leftBox, rightBox, left, right), 50);
+		var nextMove = setTimeout(function() {
+			continueSort(posI, posJ-1);
+		}, 2500);
+		return;
+	} else {
+		var nextMove = setTimeout(function() {
+			continueSort(posI, posJ-1);
+		}, 500);
+		return;
 	}
 }
 

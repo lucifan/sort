@@ -24,6 +24,10 @@ body {
 	position: absolute;
 }
 
+.active {
+	background-color: rgba(255,0,0,0.35);
+}
+
 .pointer {
 	font-size: 17px;
 	position: absolute;
